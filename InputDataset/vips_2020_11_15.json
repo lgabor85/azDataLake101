@@ -1,0 +1,19 @@
+{
+    "name": "vips_2020_11_15",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "lgadls01ls",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "delimitedText",
+        "typeProperties": {
+            "location": {
+                "type": "AzureBlobStorageLocation",
+                "fileName": "vips_2020-11-15.csv",
+                "folderPath": "input",
+                "container": "lgadfcontainer001"
+            }
+        }
+    }
+}
