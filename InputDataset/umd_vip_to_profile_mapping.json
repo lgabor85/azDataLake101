@@ -1,0 +1,19 @@
+{
+    "name": "umd_vip_to_profile_mapping",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "lgadls01ls",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "DelimitedText",
+        "typeProperties": {
+            "location": {
+                "type": "AzureBlobStorageLocation",
+                "fileName": "umd_vip_to_profile_mapping.csv",
+                "folderPath": "input",
+                "container": "lgadfcontainer001"
+            }
+        }
+    }
+}

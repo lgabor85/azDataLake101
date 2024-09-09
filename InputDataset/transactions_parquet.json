@@ -1,0 +1,19 @@
+{
+    "name": "transactions_parquet",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "lgadls01ls",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "Parquet",
+        "typeProperties": {
+            "location": {
+                "type": "AzureBlobStorageLocation",
+                "fileName": "transactions.parquet",
+                "folderPath": "input",
+                "container": "lgadfcontainer001"
+            }
+        }
+    }
+}

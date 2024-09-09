@@ -1,0 +1,59 @@
+{
+    "name": "VipSalesPipeline",
+    "properties": {
+        "activities": [
+            {
+                "name": "ExtractVipSalesData",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "1.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureSqlSource",
+                        "sqlReaderQuery": "SELECT CONCAT(vips.first_name, ' ', vips.last_name) AS vip_name, vips.email, SUM(transactions.quantity * (transactions.recommended_retail_price_per_unit - COALESCE(transactions.discount_amount_per_unit, 0))) AS total_sales_value FROM transactions JOIN umd_vip_to_profile_mapping AS mapping ON transactions.profile_id = mapping.profile_id JOIN (SELECT * FROM vips_2020_11_01 UNION ALL SELECT * FROM vips_2020_11_15 UNION ALL SELECT * FROM vips_2020_11_25) AS vips ON mapping.vip_id = vips.vip_id WHERE transactions.cancellation_flag IS NULL OR transactions.cancellation_flag = 'N' GROUP BY vips.first_name, vips.last_name, vips.email"
+                    },
+                    "sink": {
+                        "type": "BlobSink",
+                        "storeSettings": {
+                            "type": "AzureBlobStorageWriteSettings"
+                        }
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "transactions_parquet",
+                        "type": "DatasetReference"
+                    },
+                    {
+                        "referenceName": "umd_vip_to_profile_mapping",
+                        "type": "DatasetReference"
+                    },
+                    {
+                        "referenceName": "vips_2020_11_01",
+                        "type": "DatasetReference"
+                    },
+                    {
+                        "referenceName": "vips_2020_11_15",
+                        "type": "DatasetReference"
+                    },
+                    {
+                        "referenceName": "vips_2020_11_25",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "OutputDataset",
+                        "type": "DatasetReference"
+                    }
+                ]
+            }
+        ]
+    }
+}
